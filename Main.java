@@ -1,7 +1,7 @@
 /********************************************
 *	AUTHOR:	Rafael Castro
 * COLLABORATORS: 
-*	LAST MODIFIED:	7/16/26
+*	LAST MODIFIED:	7/17/26
 ********************************************/
 
 /********************************************
@@ -30,7 +30,7 @@ public class Main
 {
 
   /***** CONSTANT SECTION *****/
-  public static final int QUIPU_WIDTH = 30;
+  public static final int QUIPU_WIDTH = 25;
 
   public static void main (String[] args)
 
@@ -39,49 +39,55 @@ public class Main
 
     /***** DECLARATION SECTION *****/
     int num, hundredsPlace, remainder, tensPlace, onesPlace;
+    char userChoice;
 
 
     /***** INITIALIZATION SECTION *****/
     
     
     /***** INTRO SECTION *****/
+    System.out.println("Hello! This program turns any whole number between 0 and 999 into a digital Quipu.\n");
+
 
 
     /***** INPUT SECTION *****/
-    num = 352;
+    do {
+        num = UtilityBelt.readInt("Please enter a number between 0 and 999: ", 0, 999);
 
+        /***** PROCESSING SECTION *****/
+        hundredsPlace = num / 100;
+        remainder = num % 100;
+        tensPlace = remainder / 10;
+        onesPlace = remainder % 10;
 
-    /***** PROCESSING SECTION *****/
-    hundredsPlace = num / 100;
-    remainder = num % 100;
-    tensPlace = remainder / 10;
-    onesPlace = remainder % 10;
-    
-    /***** OUTPUT SECTION *****/
-    System.out.println("Hundres = " + hundredsPlace);
-    System.out.println("Tens = " + tensPlace);
-    System.out.println("Ones = " + onesPlace);
-    System.out.println("\nYour quipu: ");
-    Main.printQuipu(hundredsPlace, tensPlace, onesPlace);
+        /***** OUTPUT SECTION *****/
 
-    
+        System.out.printf("%-9s  = %d%n", "Hundreds",hundredsPlace);
+        System.out.printf("%-10s = %d%n", "Tens", tensPlace);
+        System.out.printf("%-10s = %d%n","Ones", onesPlace);
+        System.out.println("\nYour quipu: ");
+        Main.printQuipu(hundredsPlace, tensPlace, onesPlace);
+
+        //INIT+UPDATE LCV
+        userChoice = UtilityBelt.readChar("\nWould you like to make another quipu? {Y/N}: ", "YyNn");
+    } while(userChoice == 'Y' || userChoice =='y');//CHECK LCV
+    System.out.println("\nGoodbye!");
+
   }
   /***** STATIC METHODS *****/
   public static void printQuipu(int hundres, int tens, int ones){
-    UtilityBelt.printCentered(QUIPU_WIDTH, "---");
+    UtilityBelt.printCentered(QUIPU_WIDTH, "___");
+    UtilityBelt.printCentered(QUIPU_WIDTH, "|");
     Main.printKnots(hundres);
     UtilityBelt.printCentered(QUIPU_WIDTH, "|");
     Main.printKnots(tens);
     UtilityBelt.printCentered(QUIPU_WIDTH, "|");
     Main.printKnots(ones);
+    UtilityBelt.printCentered(QUIPU_WIDTH, "|");
     UtilityBelt.printCentered(QUIPU_WIDTH, "\u203E")
     ;
   }
 
-
-  //description: prints centered knots to the screen
-  //precondition: numKnots is >= 0
-  //postcondition: * aligned for numKnots will be printed vertically
   public static void printKnots(int numKnots){
     for(int i =0; i < numKnots; i++){
       //System.out.println("*");
